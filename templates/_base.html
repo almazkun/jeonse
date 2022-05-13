@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% block meta %}
+            {% include "includes/meta.html" %}
+        {% endblock meta %}
+
+        {% block style %}
+            {% include "includes/style.html"%}
+        {% endblock style %}
+    </head>
+
+    <body>
+        {% block navigation %}
+            {% include "includes/nav.html" %}
+        {% endblock navigation %}
+
+        {% block main_content %}
+        {% endblock main_content %}
+
+        {% block footer %}
+            {% include "includes/footer.html" %}
+        {% endblock footer %}
+
+        {% block scripts %}
+            {% include "includes/scripts.html" %}
+        {% endblock scripts %}
+    </body>
+</html>
