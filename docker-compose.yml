@@ -5,11 +5,7 @@ services:
     web:
         build: ./
         command: python3 manage.py runserver 0.0.0.0:8000 --verbosity 1
-        restart: always
-        environment:
-            DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
-            DJANGO_DEBUG: ${DJANGO_DEBUG}
-            DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS}
+        env_file: .env
         ports:
             - 80:8000
         volumes:
