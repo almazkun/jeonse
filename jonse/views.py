@@ -1,13 +1,23 @@
-from django.views.generic import TemplateView
+from django_filters.views import FilterView
+from django_tables2 import SingleTableMixin
 
+from jonse.filters import ListingFilter
 from jonse.models import Listing
+from jonse.tables import ListingTable
 
 
 # Create your views here.
-class HomeView(TemplateView):
-    template_name = "home.html"
+class HomeView(SingleTableMixin, FilterView):
+    table_class = ListingTable
+    queryset = Listing.objects.all().order_by("-pk")
+    paginate_by = 15
+    filterset_class = ListingFilter
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["listing_list"] = Listing.objects.all()
-        return context
+    def get_template_names(self):
+        print(Listing.objects.all().count())
+        if self.request.htmx:
+            template_name = "home_partial.html"
+        else:
+            template_name = "home.html"
+
+        return template_name
