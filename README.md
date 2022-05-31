@@ -2,11 +2,11 @@
 An app to compare different rental options. 
 
 ## TODO
-* Deploy CI to Heroku
 * Add Accounts
 * Users listings
 * CRUD a listing
 * Create a user
+* Display numbers nicer
 
 
 ## Changes
