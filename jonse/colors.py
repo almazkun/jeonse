@@ -1,10 +1,12 @@
 from random import choice
 
+
 def get_pair() -> str:
     """
     Get the pair of colors from two dictionaries.
     """
     return f"{choice(list(XKCD_COLORS.keys()))} {choice(list(CSS4_COLORS.keys()))}"
+
 
 # from https://xkcd.com/color/rgb.txt
 XKCD_COLORS = {

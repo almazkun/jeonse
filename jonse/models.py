@@ -1,5 +1,3 @@
-from random import choice
-
 from django.db import models
 
 from jonse.colors import get_pair
@@ -25,7 +23,8 @@ class BaseModel(models.Model):
 
 class ListingManager(models.Manager):
     def for_home(self):
-        return self.filter(deleted_on=False).order_by('-created_at')
+        return self.filter(deleted_on=False).order_by("-created_at")
+
 
 # Create your models here.
 class Listing(BaseModel):
@@ -63,8 +62,12 @@ class Listing(BaseModel):
     objects = ListingManager()
 
     def save(self, *args, **kwargs):
-        self.jonse_interest_amount_per_month = int(self.jonse_amount * self.jonse_interest_rate / 100) 
-        self.monthly_expense = int(self.wolse_rent + self.gwanlibi + self.jonse_interest_amount_per_month)
+        self.jonse_interest_amount_per_month = int(
+            self.jonse_amount * self.jonse_interest_rate / 100
+        )
+        self.monthly_expense = int(
+            self.wolse_rent + self.gwanlibi + self.jonse_interest_amount_per_month
+        )
         return super().save(*args, **kwargs)
 
     """

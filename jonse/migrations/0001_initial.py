@@ -7,33 +7,45 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Listing',
+            name="Listing",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('deleted_at', models.DateTimeField(null=True)),
-                ('deleted_on', models.BooleanField(default=False)),
-                ('name', models.CharField(max_length=200)),
-                ('jonse_amount', models.IntegerField(default=0)),
-                ('wolse_amount', models.IntegerField(default=0)),
-                ('wolse_rent', models.IntegerField(default=0)),
-                ('gwanlibi', models.IntegerField(default=0)),
-                ('jonse_interest_rate', models.FloatField(default=4)),
-                ('jonse_interest_amount_per_month', models.IntegerField(default=0)),
-                ('monthly_expense', models.IntegerField(default=0)),
-                ('number_of_rooms', models.SmallIntegerField(default=1)),
-                ('number_of_bathrooms', models.SmallIntegerField(default=1)),
-                ('condition', models.SmallIntegerField(choices=[(0, 'New'), (1, 'OK'), (2, 'Old')], default=1)),
-                ('description', models.TextField(blank=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("deleted_at", models.DateTimeField(null=True)),
+                ("deleted_on", models.BooleanField(default=False)),
+                ("name", models.CharField(max_length=200)),
+                ("jonse_amount", models.IntegerField(default=0)),
+                ("wolse_amount", models.IntegerField(default=0)),
+                ("wolse_rent", models.IntegerField(default=0)),
+                ("gwanlibi", models.IntegerField(default=0)),
+                ("jonse_interest_rate", models.FloatField(default=4)),
+                ("jonse_interest_amount_per_month", models.IntegerField(default=0)),
+                ("monthly_expense", models.IntegerField(default=0)),
+                ("number_of_rooms", models.SmallIntegerField(default=1)),
+                ("number_of_bathrooms", models.SmallIntegerField(default=1)),
+                (
+                    "condition",
+                    models.SmallIntegerField(
+                        choices=[(0, "New"), (1, "OK"), (2, "Old")], default=1
+                    ),
+                ),
+                ("description", models.TextField(blank=True)),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
     ]
