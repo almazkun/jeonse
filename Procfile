@@ -1,1 +1,1 @@
-web: gunicorn settings:wsgi 
+web: gunicorn settings.wsgi:application -b 0.0.0.0:8080
