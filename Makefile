@@ -1,5 +1,10 @@
 sttc:
-	docker compose  -f docker-compose.prod.yml run web python3 manage.py collectstatic --noinput
+	docker compose -f docker-compose.prod.yml run --rm web python3 manage.py collectstatic --noinput
+
+mgrt:
+	docker compose run --rm web python3 manage.py makemigrations
+	docker compose run --rm web python3 manage.py migrate
+	
 run:
 	docker compose up --build
 dev:  
@@ -13,3 +18,6 @@ lint:
 	pipenv run autoflake --recursive --ignore-init-module-imports --in-place --remove-all-unused-imports .
 	pipenv run isort --recursive --use-parentheses --trailing-comma --multi-line 3 --force-grid-wrap 0 --line-width 88 .
 	pipenv run black .
+
+clean:
+	docker rm -f $(shell docker ps -aq)

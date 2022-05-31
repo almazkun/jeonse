@@ -1,5 +1,13 @@
-# django_template
-This is a django started template
+# Jonse
+An app to compare different rental options. 
+
+## TODO
+* Deploy CI to Heroku
+* Add Accounts
+* Users listings
+* CRUD a listing
+* Create a user
+
 
 ## Changes
 1. Docker Compose dev and prod setup
@@ -19,3 +27,5 @@ This is a django started template
 5. `python manage.py makemigrations`
 6. `python manage.py migrate`
 7. `python manage.py runserver`
+
+

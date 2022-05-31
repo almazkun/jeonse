@@ -9,12 +9,12 @@ from jonse.tables import ListingTable
 # Create your views here.
 class HomeView(SingleTableMixin, FilterView):
     table_class = ListingTable
-    queryset = Listing.objects.all().order_by("-pk")
+    queryset = Listing.objects.for_home()
     paginate_by = 15
     filterset_class = ListingFilter
 
     def get_template_names(self):
-        print(Listing.objects.all().count())
+
         if self.request.htmx:
             template_name = "home_partial.html"
         else:
