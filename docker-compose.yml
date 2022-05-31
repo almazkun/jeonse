@@ -16,7 +16,6 @@ services:
             POSTGRES_PASSWORD: ${DB_PASSWORD}
         volumes:
             - ./postgres:/var/lib/postgresql/data
-        
 
     web:
         build: ./
@@ -26,4 +25,3 @@ services:
             - ./:/usr/src/code
         ports:
             - 8000
-
