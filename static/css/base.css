@@ -8,11 +8,6 @@ body {
     flex-grow: 1;
 }
 
-
-.container {
-    max-width: 653px;
-}
-
 /* Table style */
 .table-container th.asc:after {
     content: '\0000a0\0025b2';
