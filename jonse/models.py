@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 from jonse.colors import get_pair
 
@@ -38,26 +39,30 @@ class Listing(BaseModel):
         (OLD, "Old"),
     )
 
-    name = models.CharField(max_length=200, default=default_listing_name)
+    name = models.CharField(_("Name"), max_length=200, default=default_listing_name)
 
-    jonse_amount = models.IntegerField(default=0)
+    jonse_amount = models.IntegerField(_("Jonse"), default=0)
 
-    wolse_amount = models.IntegerField(default=0)
+    wolse_amount = models.IntegerField(_("Wolse"), default=0)
 
-    wolse_rent = models.IntegerField(default=0)
-    gwanlibi = models.IntegerField(default=0)
+    wolse_rent = models.IntegerField(_("Wolse rent"), default=0)
+    gwanlibi = models.IntegerField(_("Management fees"), default=0)
 
-    jonse_interest_rate = models.FloatField(default=4)
-    jonse_interest_amount_per_month = models.IntegerField(default=0)
+    jonse_interest_rate = models.FloatField(_("Jonse loan interest rate"), default=4)
+    jonse_interest_amount_per_month = models.IntegerField(
+        _("Jonse loan monthly payment amount"), default=0
+    )
 
-    monthly_expense = models.IntegerField(default=0)
+    monthly_expense = models.IntegerField(_("Monthly expenses"), default=0)
 
-    number_of_rooms = models.SmallIntegerField(default=1)
-    number_of_bathrooms = models.SmallIntegerField(default=1)
+    number_of_rooms = models.SmallIntegerField(_("# of rooms"), default=1)
+    number_of_bathrooms = models.SmallIntegerField(_("# of bathrooms"), default=1)
 
-    condition = models.SmallIntegerField(choices=condition_choices, default=OK)
+    condition = models.SmallIntegerField(
+        _("Condition"), choices=condition_choices, default=OK
+    )
 
-    description = models.TextField(blank=True)
+    description = models.TextField(_("Notes"), blank=True)
 
     objects = ListingManager()
 
@@ -74,7 +79,8 @@ class Listing(BaseModel):
 from jonse.models import Listing
 Listing.objects.all().delete()
 from random import choice
-for i in range(100):
+
+for i in range(1000):
     Listing.objects.create(
         jonse_amount=choice(range(0, 1000000))*i,
         wolse_amount=choice(range(0, 1000000))*i,

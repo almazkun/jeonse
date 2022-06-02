@@ -1,0 +1,16 @@
+
+{% extends "_base.html" %}
+
+{% block main_content %}
+    <div class="container pb-5">
+        <div class="pb-5 mb-5">
+            <h2>Signup please</h2>
+            <form method="post">{% csrf_token %}
+                {% include 'includes/form.html' with form=form  %}
+                <div class="mt-2 mt-md-3 d-md-flex justify-content-md-end">
+                    <button type="submit" class="btn btn-success mt-2 mt-md-3">Signup</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
