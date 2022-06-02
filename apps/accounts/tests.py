@@ -64,22 +64,18 @@ class TestViews(TestCase):
     def setUp(self):
         self.client = Client()
         self.user_data = {
-            "email": "test@email.com",
-            "password": "test_password",
+            "email": "some@email.com",
+            "password1": "some_password",
+            "password2": "some_password",
         }
 
-    def test_signup_view(self):
-        response = self.client.get(reverse("signup"))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "accounts/signup.html")
-        self.assertIsInstance(response.context["form"], CustomUserCreationForm)
-
-    def test_signup_view_post(self):
+    def test_signup(self):
         response = self.client.post(reverse("signup"), self.user_data)
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, "/")
-
         user = CustomUser.objects.get(email=self.user_data["email"])
 
         self.assertEqual(user.email, self.user_data["email"])
-        self.assertTrue(user.check_password(self.user_data["password"]))
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(user.is_superuser)
+        self.assertFalse(user.is_staff)
+        self.assertTrue(user.is_active)
+        self.assertTrue(user.check_password(self.user_data["password1"]))

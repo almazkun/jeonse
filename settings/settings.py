@@ -149,7 +149,7 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # https://whitenoise.evans.io/en/stable/
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -183,3 +183,12 @@ LOGGING = {
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/topics/auth/customizing/#substituting-a-custom-user-model
 AUTH_USER_MODEL = "accounts.CustomUser"
+
+# for LoginRequiredMixin to work
+LOGIN_URL = "signin"
+
+# for account.urls to work
+LOGOUT_REDIRECT_URL = "home"
+
+# for account.urls to work
+LOGIN_REDIRECT_URL = "home"

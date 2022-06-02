@@ -1,3 +1,5 @@
+from django.contrib.auth import views
+from django.urls import reverse_lazy
 from django.views.generic import FormView
 
 from apps.accounts.forms import CustomUserCreationForm
@@ -7,17 +9,13 @@ from apps.accounts.forms import CustomUserCreationForm
 class SignupView(FormView):
     template_name = "accounts/signup.html"
     form_class = CustomUserCreationForm
-    success_url = "/"
-
-    def form_valid(self, form):
-        request = self.request
-        next_path = request.GET.get("next")
-        return redirect(next_path)
+    success_url = reverse_lazy("signin")
 
 
-class SigninView(FormView):
-    pass
+class SigninView(views.LoginView):
+    template_name = "accounts/signin.html"
+    success_url = reverse_lazy("home")
 
 
-class SignoutView(FormView):
-    pass
+class SignoutView(views.LogoutView):
+    success_url = reverse_lazy("home")
