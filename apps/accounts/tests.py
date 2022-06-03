@@ -64,7 +64,7 @@ class TestViews(TestCase):
     def setUp(self):
         self.client = Client()
         self.user_data = {
-            "email": "some@email.com",
+            "email": "test@test.com",
             "password1": "some_password",
             "password2": "some_password",
         }

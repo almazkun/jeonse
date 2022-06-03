@@ -28,3 +28,6 @@ clean:
 
 test:
 	docker run --rm $(shell docker build -q -f Dockerfile.test .) coverage run manage.py test
+
+shell:
+	docker compose run --rm web python3 manage.py shell

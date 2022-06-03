@@ -9,5 +9,13 @@
             </div>
         </a>
         <a class="nav-item lead text-decoration-none text-dark fw-bold" href="{% url 'home' %}">Django</a>
+        <div class="ms-auto">
+            {% if user.is_authenticated %}
+                <a class="nav-item text-decoration-none text-dark" href="{% url 'signout' %}">Sign out</a>
+            {% else %}
+                <a class="nav-item text-decoration-none text-dark pe-2" href="{% url 'signin' %}">Sign in</a>
+                <a class="nav-item text-decoration-none text-dark" href="{% url 'signup' %}">Sign up</a>
+            {% endif %}
+        </div>
     </div>
 </nav>

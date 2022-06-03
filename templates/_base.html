@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-100">
     <head>
         {% block meta %}
             {% include "includes/meta.html" %}
@@ -10,13 +10,16 @@
         {% endblock style %}
     </head>
 
-    <body>
+    <body class="d-flex flex-column h-100">
         {% block navigation %}
             {% include "includes/nav.html" %}
         {% endblock navigation %}
 
-        {% block main_content %}
-        {% endblock main_content %}
+        <main class="flex-shrink-0">
+            {% block main_content %}
+            {% endblock main_content %}
+        </main>
+
 
         {% block footer %}
             {% include "includes/footer.html" %}
