@@ -193,6 +193,8 @@ LOGOUT_REDIRECT_URL = "home"
 # for account.urls to work
 LOGIN_REDIRECT_URL = "home"
 
-CSRF_TRUSTED_ORIGINS = [
-    x.strip() for x in os.environ.get("DJANGO_CSRF_TRUSTED_ORIGINS", "").split(",")
-]
+CSRF_TRUSTED_ORIGINS = (
+    [x.strip() for x in os.environ.get("DJANGO_CSRF_TRUSTED_ORIGINS", "").split(",")]
+    if os.environ.get("DJANGO_CSRF_TRUSTED_ORIGINS")
+    else []
+)

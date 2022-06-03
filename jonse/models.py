@@ -71,7 +71,7 @@ class Listing(BaseModel):
 
     def save(self, *args, **kwargs):
         self.jonse_interest_amount_per_month = int(
-            self.jonse_amount * self.jonse_interest_rate / 100
+            self.jonse_amount * self.jonse_interest_rate / 100 / 12
         )
         self.monthly_expense = int(
             self.wolse_rent + self.gwanlibi + self.jonse_interest_amount_per_month
