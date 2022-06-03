@@ -4,9 +4,6 @@ from django.views.generic import CreateView
 
 from apps.accounts.forms import CustomUserCreationForm
 
-import logging
-
-logger = logging.getLogger(__name__)
 
 # Create your views here.
 class SignupView(CreateView):

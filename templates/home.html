@@ -5,7 +5,17 @@
 
 {% block main_content %}
     <div class="container">
-        <h1>Rental Listings</h1>
+        {% block my_listings %}
+            {% if my_listings %}
+                <h1>My Listings</h1>
+
+                
+            {% else %}
+                <h1>All Listings</h1>
+            {% endif %}
+        {% endblock %}
+
+        <a class="btn btn-primary" href="{% url 'listing_create' %}">Add Listing</a>
 
         <div class="progress">
             <div class="indeterminate"></div>

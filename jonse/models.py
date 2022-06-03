@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -39,11 +40,13 @@ class Listing(BaseModel):
         (OLD, "Old"),
     )
 
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
     name = models.CharField(_("Name"), max_length=200, default=default_listing_name)
 
-    jonse_amount = models.IntegerField(_("Jonse"), default=0)
+    jonse_amount = models.BigIntegerField(_("Jonse"), default=0)
 
-    wolse_amount = models.IntegerField(_("Wolse"), default=0)
+    wolse_amount = models.BigIntegerField(_("Wolse"), default=0)
 
     wolse_rent = models.IntegerField(_("Wolse rent"), default=0)
     gwanlibi = models.IntegerField(_("Management fees"), default=0)

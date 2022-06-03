@@ -2,12 +2,14 @@
 An app to compare different rental options. 
 
 ## TODO
+* CRUD a listing
+* Display numbers nicer
+* Create listing form nicer
+
+# DONE
 * Add Accounts
 * Users listings
-* CRUD a listing
 * Create a user
-* Display numbers nicer
-
 
 ## Changes
 1. Docker Compose dev and prod setup
