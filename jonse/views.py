@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DeleteView
 from django_filters.views import FilterView
 from django_tables2 import SingleTableMixin
 
@@ -48,3 +48,18 @@ class ListingCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.creator = self.request.user
         return super().form_valid(form)
+
+
+class ListingDeleteView(LoginRequiredMixin, DeleteView):
+    redirect_field_name = "next"
+    success_url = reverse_lazy("my_listings")
+    model = Listing
+
+    template_name = "listing/delete.html"
+
+    def get_object(self, queryset=None):
+        """Hook to ensure object is owned by request.user."""
+        obj = super().get_object()
+        if obj.creator == self.request.user or self.request.user.is_staff:
+            return obj
+        raise Http404

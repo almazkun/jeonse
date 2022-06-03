@@ -1,9 +1,14 @@
 import django_tables2 as tables
+from django_tables2.utils import A
 
 from jonse.models import Listing
 
 
 class ListingTable(tables.Table):
+    delete = tables.LinkColumn(
+        "listing_delete", args=[A("pk")], orderable=False, empty_values=()
+    )
+
     class Meta:
         model = Listing
         template_name = "tables/listing_table.html"
@@ -19,3 +24,6 @@ class ListingTable(tables.Table):
             "condition",
             "description",
         )
+
+    def render_delete(self, value):
+        return "- del!"
