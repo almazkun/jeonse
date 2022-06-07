@@ -1,7 +1,14 @@
+td {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 200px;
+}
+
 .container {
     max-width: 653px;
-    }
-    
+}
+
 /* Table style */
 .table-container th.asc:after {
     content: '\0000a0\0025b2';

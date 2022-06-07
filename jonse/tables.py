@@ -5,8 +5,8 @@ from jonse.models import Listing
 
 
 class ListingTable(tables.Table):
-    delete = tables.LinkColumn(
-        "listing_delete", args=[A("pk")], orderable=False, empty_values=()
+    edit = tables.LinkColumn(
+        "listing_detail", args=[A("pk")], orderable=False, empty_values=()
     )
 
     class Meta:
@@ -25,5 +25,5 @@ class ListingTable(tables.Table):
             "description",
         )
 
-    def render_delete(self, value):
-        return "- del!"
+    def render_edit(self, value):
+        return "edit"
