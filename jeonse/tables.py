@@ -12,7 +12,7 @@ class ListingTable(tables.Table):
     class Meta:
         model = Listing
         template_name = "tables/listing_table.html"
-        attrs = {"class": "table table-responsive table-striped table-sm"}
+        attrs = {"class": "table table-sm table-responsive table-hover"}
         fields = (
             "name",
             "jeonse_amount",

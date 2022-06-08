@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DeleteView, DetailView
+from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 from django_filters.views import FilterView
 from django_tables2 import SingleTableMixin
 
@@ -53,6 +53,12 @@ class ListingCreateView(LoginRequiredMixin, CreateView):
 class ListingDetailView(LoginRequiredMixin, DetailView):
     model = Listing
     template_name = "listing/detail.html"
+
+
+class ListingUpdateView(LoginRequiredMixin, UpdateView):
+    model = Listing
+    form_class = ListingCreateForm
+    template_name = "listing/update.html"
 
 
 class ListingDeleteView(LoginRequiredMixin, DeleteView):

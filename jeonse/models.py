@@ -82,9 +82,13 @@ class Listing(BaseModel):
 from jeonse.models import Listing
 Listing.objects.all().delete()
 from random import choice
+from apps.accounts.models import CustomUser
+
+
 
 for i in range(1000):
     Listing.objects.create(
+        creator=choice(CustomUser.objects.all()),
         jeonse_amount=choice(range(0, 1000000))*i,
         wolse_amount=choice(range(0, 1000000))*i,
         wolse_rent=choice(range(0, 100000))*i,

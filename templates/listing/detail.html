@@ -9,7 +9,7 @@
 
             <div class="mt-2 mt-md-3 d-flex justify-content-end">
                     <a class="btn btn-outline-danger" href="{% url 'listing_delete' pk=object.pk %}">Delete</a> 
-                    <a class="btn btn-success ms-2" href="">Edit</a> 
+                    <a class="btn btn-success ms-2" href="{% url 'listing_update' pk=object.pk %}">Edit</a> 
             </div>
             
         </div>
