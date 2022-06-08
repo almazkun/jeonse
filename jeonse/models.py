@@ -2,7 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from jonse.colors import get_pair
+from jeonse.colors import get_pair
 
 
 def default_listing_name():
@@ -44,16 +44,16 @@ class Listing(BaseModel):
 
     name = models.CharField(_("Name"), max_length=200, default=default_listing_name)
 
-    jonse_amount = models.BigIntegerField(_("Jonse"), default=0)
+    jeonse_amount = models.BigIntegerField(_("Jeonse"), default=0)
 
     wolse_amount = models.BigIntegerField(_("Wolse"), default=0)
 
     wolse_rent = models.IntegerField(_("Wolse rent"), default=0)
     gwanlibi = models.IntegerField(_("Management fees"), default=0)
 
-    jonse_interest_rate = models.FloatField(_("Jonse loan interest rate"), default=4)
-    jonse_interest_amount_per_month = models.IntegerField(
-        _("Jonse loan monthly payment amount"), default=0
+    jeonse_interest_rate = models.FloatField(_("Jeonse loan interest rate"), default=4)
+    jeonse_interest_amount_per_month = models.IntegerField(
+        _("Jeonse loan monthly payment amount"), default=0
     )
 
     monthly_expense = models.IntegerField(_("Monthly expenses"), default=0)
@@ -70,22 +70,22 @@ class Listing(BaseModel):
     objects = ListingManager()
 
     def save(self, *args, **kwargs):
-        self.jonse_interest_amount_per_month = int(
-            self.jonse_amount * self.jonse_interest_rate / 100 / 12
+        self.jeonse_interest_amount_per_month = int(
+            self.jeonse_amount * self.jeonse_interest_rate / 100 / 12
         )
         self.monthly_expense = int(
-            self.wolse_rent + self.gwanlibi + self.jonse_interest_amount_per_month
+            self.wolse_rent + self.gwanlibi + self.jeonse_interest_amount_per_month
         )
         return super().save(*args, **kwargs)
 
     """
-from jonse.models import Listing
+from jeonse.models import Listing
 Listing.objects.all().delete()
 from random import choice
 
 for i in range(1000):
     Listing.objects.create(
-        jonse_amount=choice(range(0, 1000000))*i,
+        jeonse_amount=choice(range(0, 1000000))*i,
         wolse_amount=choice(range(0, 1000000))*i,
         wolse_rent=choice(range(0, 100000))*i,
         gwanlibi=choice(range(0, 100000))*i,

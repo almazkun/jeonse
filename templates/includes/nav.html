@@ -9,9 +9,9 @@
             </div>
         </a>
 
-        <a class="nav-item lead text-decoration-none text-dark fw-bold me-2" href="{% url 'home' %}">All</a>
+        <a class="nav-item text-decoration-none text-dark me-2 {% if not my_listings %} lead fw-bold {% endif %}" href="{% url 'home' %}">All</a>
 
-        <a class="nav-item text-decoration-none text-dark " href="{% url 'my_listings' %}">My</a>
+        <a class="nav-item text-decoration-none text-dark {% if my_listings %} lead fw-bold {% endif %}" href="{% url 'my_listings' %}">My</a>
 
         <div class="ms-auto">
             {% if user.is_authenticated %}

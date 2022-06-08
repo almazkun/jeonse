@@ -1,7 +1,7 @@
 import django_tables2 as tables
 from django_tables2.utils import A
 
-from jonse.models import Listing
+from jeonse.models import Listing
 
 
 class ListingTable(tables.Table):
@@ -12,10 +12,10 @@ class ListingTable(tables.Table):
     class Meta:
         model = Listing
         template_name = "tables/listing_table.html"
-        attrs = {"class": "table table-responsive"}
+        attrs = {"class": "table table-responsive table-striped table-sm"}
         fields = (
             "name",
-            "jonse_amount",
+            "jeonse_amount",
             "wolse_amount",
             "wolse_rent",
             "monthly_expense",

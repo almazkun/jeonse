@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 
-from jonse.models import Listing
+from jeonse.models import Listing
 
 
 class ListingCreateForm(ModelForm):
@@ -8,11 +8,11 @@ class ListingCreateForm(ModelForm):
         model = Listing
         fields = [
             "name",
-            "jonse_amount",
+            "jeonse_amount",
             "wolse_amount",
             "wolse_rent",
             "gwanlibi",
-            "jonse_interest_rate",
+            "jeonse_interest_rate",
             "number_of_rooms",
             "number_of_bathrooms",
             "condition",

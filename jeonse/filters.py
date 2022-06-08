@@ -1,6 +1,6 @@
 import django_filters
 
-from jonse.models import Listing
+from jeonse.models import Listing
 
 
 class ListingFilter(django_filters.FilterSet):

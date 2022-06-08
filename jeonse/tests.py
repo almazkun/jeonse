@@ -2,7 +2,7 @@ from random import choice as c
 
 from django.test import TestCase
 
-from jonse.models import Listing
+from jeonse.models import Listing
 
 
 # Create your tests here.
@@ -17,27 +17,28 @@ class TestModels(TestCase):
         for i in range(100):
 
             l_data = {
-                "jonse_amount": c(possible_numbers),
+                "jeonse_amount": c(possible_numbers),
                 "wolse_amount": c(possible_numbers),
                 "wolse_rent": c(possible_numbers),
                 "gwanlibi": c(possible_numbers),
-                "jonse_interest_rate": c(possible_numbers),
+                "jeonse_interest_rate": c(possible_numbers),
             }
 
             listing = Listing.objects.create(**l_data)
 
-            jonse_interest_amount_per_month = int(
-                l_data["jonse_amount"] * l_data["jonse_interest_rate"] / 100
+            jeonse_interest_amount_per_month = int(
+                l_data["jeonse_amount"] * l_data["jeonse_interest_rate"] / 100 / 12
             )
 
             monthly_expense = int(
                 l_data["wolse_rent"]
                 + l_data["gwanlibi"]
-                + jonse_interest_amount_per_month
+                + jeonse_interest_amount_per_month
             )
 
             self.assertEqual(
-                listing.jonse_interest_amount_per_month, jonse_interest_amount_per_month
+                listing.jeonse_interest_amount_per_month,
+                jeonse_interest_amount_per_month,
             )
 
             self.assertEqual(listing.monthly_expense, monthly_expense)

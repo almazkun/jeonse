@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # my apps
-    "jonse",
+    "jeonse",
     "apps.accounts",
     # third party apps
     "django_tables2",

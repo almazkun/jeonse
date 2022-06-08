@@ -1,6 +1,6 @@
 from django.urls import path
 
-from jonse.views import (
+from jeonse.views import (
     HomeView,
     ListingCreateView,
     ListingDeleteView,

@@ -4,10 +4,10 @@ from django.views.generic import CreateView, DeleteView, DetailView
 from django_filters.views import FilterView
 from django_tables2 import SingleTableMixin
 
-from jonse.filters import ListingFilter
-from jonse.forms import ListingCreateForm
-from jonse.models import Listing
-from jonse.tables import ListingTable
+from jeonse.filters import ListingFilter
+from jeonse.forms import ListingCreateForm
+from jeonse.models import Listing
+from jeonse.tables import ListingTable
 
 
 # Create your views here.
