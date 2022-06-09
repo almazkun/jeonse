@@ -5,6 +5,11 @@ th, td {
     max-width: 200px;
 }
 
+.active>.page-link, .page-link.active {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
 .container {
     max-width: 653px;
 }

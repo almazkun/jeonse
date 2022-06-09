@@ -198,3 +198,7 @@ CSRF_TRUSTED_ORIGINS = (
     if os.environ.get("DJANGO_CSRF_TRUSTED_ORIGINS")
     else []
 )
+
+DEMO_USER_EMAIL = os.environ.get("DEMO_USER_EMAIL")
+
+DEMO_USER_PASSWORD = os.environ.get("DEMO_USER_PASSWORD")

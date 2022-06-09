@@ -1,17 +1,9 @@
-{% extends "_base.html" %}
-
-
-{% block main_content %}
-    <div class="container pb-5">
-        <div class="pb-5 mb-5">
-            <h1>Add new listing</h1>
-            <form id="login-form" method="post">{% csrf_token %}
-                {% include 'includes/form.html' with form=form  %}
-                <div class="mt-2 mt-md-3 d-flex justify-content-between">
-                    <a class="btn btn-outline-danger" href="{% url 'my_listings' %}">Cancel</a> 
-                    <button type="submit" class="btn btn-primary">+ Add!</button>
-                </div>
-            </form>
-        </div>
+<form hx-post="{% url 'listing_update' pk=object.pk %}">{% csrf_token %}
+    <h1>{{ object.name }}</h1>
+    <p>Edit</p>
+    {% include 'includes/form.html' with form=form  %}
+    <div class="mt-2 mt-md-3 d-flex justify-content-between">
+        <a class="btn btn-outline-danger" href="{% url 'listing_detail' pk=object.pk %}">Cancel</a> 
+        <button type="submit" class="btn btn-success">Save</button>
     </div>
-{% endblock %}
+</form>

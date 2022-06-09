@@ -31,3 +31,9 @@ test:
 
 shell:
 	docker compose run --rm web python3 manage.py shell
+
+user:
+	docker-compose run --rm web python3 manage.py create_demo_user
+
+listing:
+	docker-compose run --rm web python3 manage.py create_demo_listings

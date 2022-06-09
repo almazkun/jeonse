@@ -7,7 +7,7 @@ from django_tables2 import SingleTableMixin
 from jeonse.filters import ListingFilter
 from jeonse.forms import ListingCreateForm
 from jeonse.models import Listing
-from jeonse.tables import ListingTable
+from jeonse.tables import ListingTable, MyListingTable
 
 
 # Create your views here.
@@ -28,6 +28,7 @@ class HomeView(SingleTableMixin, FilterView):
 
 
 class MyListingView(LoginRequiredMixin, HomeView):
+    table_class = MyListingTable
     redirect_field_name = "next"
 
     def get_queryset(self):
@@ -52,13 +53,24 @@ class ListingCreateView(LoginRequiredMixin, CreateView):
 
 class ListingDetailView(LoginRequiredMixin, DetailView):
     model = Listing
-    template_name = "listing/detail.html"
+
+    def get_template_names(self):
+
+        if self.request.htmx:
+            template_name = "listing/detail_partial.html"
+        else:
+            template_name = "listing/detail.html"
+
+        return template_name
 
 
 class ListingUpdateView(LoginRequiredMixin, UpdateView):
     model = Listing
     form_class = ListingCreateForm
     template_name = "listing/update.html"
+
+    def get_success_url(self):
+        return reverse_lazy("listing_detail", kwargs={"pk": self.object.pk})
 
 
 class ListingDeleteView(LoginRequiredMixin, DeleteView):

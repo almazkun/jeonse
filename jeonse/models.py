@@ -70,13 +70,23 @@ class Listing(BaseModel):
     objects = ListingManager()
 
     def save(self, *args, **kwargs):
-        self.jeonse_interest_amount_per_month = int(
-            self.jeonse_amount * self.jeonse_interest_rate / 100 / 12
-        )
-        self.monthly_expense = int(
-            self.wolse_rent + self.gwanlibi + self.jeonse_interest_amount_per_month
-        )
+        self.jeonse_interest_amount_per_month = self.monthly_interest_payment_amount
+        self.monthly_expense = self.total_monthly_payment_amount
         return super().save(*args, **kwargs)
+
+    @property
+    def annual_interest_payment_amount(self):
+        return int(self.jeonse_amount * self.jeonse_interest_rate / 100)
+
+    @property
+    def monthly_interest_payment_amount(self):
+        return int(self.annual_interest_payment_amount / 12)
+
+    @property
+    def total_monthly_payment_amount(self):
+        return int(
+            self.wolse_rent + self.gwanlibi + self.monthly_interest_payment_amount
+        )
 
     """
 from jeonse.models import Listing
