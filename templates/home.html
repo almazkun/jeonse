@@ -15,11 +15,13 @@
 
         <a class="btn btn-outline-success" href="{% url 'listing_create' %}">Add Listing</a>
 
-        <div class="progress">
+        <div class="progress my-2">
             <div class="indeterminate"></div>
         </div>
+
         <div style="overflow: auto">
-            {% render_table table %}
+            {% include "home_partial.html" %}
         </div>
+
     </div>
 {% endblock %}

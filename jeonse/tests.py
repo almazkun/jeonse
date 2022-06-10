@@ -3,11 +3,14 @@ from random import choice as c
 from django.test import TestCase
 
 from jeonse.models import Listing
-
+from apps.accounts.models import CustomUser
 
 # Create your tests here.
 class TestModels(TestCase):
     def test_listing(self):
+        creator = CustomUser.objects.create(
+            email="some@email.com",
+        )
         possible_numbers = [
             -1,
             0,
@@ -17,6 +20,7 @@ class TestModels(TestCase):
         for i in range(100):
 
             l_data = {
+                "creator": creator,
                 "jeonse_amount": c(possible_numbers),
                 "wolse_amount": c(possible_numbers),
                 "wolse_rent": c(possible_numbers),

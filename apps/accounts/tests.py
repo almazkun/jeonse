@@ -68,6 +68,11 @@ class TestViews(TestCase):
             "password1": "some_password",
             "password2": "some_password",
         }
+        self.signin_data = {
+            "username": "username",
+            "email": self.user_data["email"],
+            "password": self.user_data["password1"],
+        }
 
     def test_signup(self):
         response = self.client.post(reverse("signup"), self.user_data)
@@ -79,3 +84,7 @@ class TestViews(TestCase):
         self.assertFalse(user.is_staff)
         self.assertTrue(user.is_active)
         self.assertTrue(user.check_password(self.user_data["password1"]))
+
+        response = self.client.post(reverse("signin"), self.signin_data)
+        print(response.context.get("form").errors)
+        self.assertEqual(response.status_code, 302)

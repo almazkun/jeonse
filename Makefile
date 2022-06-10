@@ -37,3 +37,7 @@ user:
 
 listing:
 	docker-compose run --rm web python3 manage.py create_demo_listings
+
+test_env:
+	pipenv run coverage run manage.py test
+	pipenv run coverage report -m

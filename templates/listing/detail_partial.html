@@ -1,68 +1,71 @@
-{% block main_content %}
-    <div class="container pb-5" id="listing-detail">
-        <h1>{{ object.name }}</h1>
-        <p class="text-break">{{ object.description }}</p>
-        
-        <div class="my-4">
-            <div class="row">
-                <h3>Payment Information</h3>
+<div class="container pb-5" id="listing-detail">
+    <h1>{{ object.name }}</h1>
+    <p class="text-break">{{ object.description }}</p>
+    
+    <div class="progress my-2">
+        <div class="indeterminate"></div>
+    </div>
+    
+    <div class="my-4">
+        <div class="row">
+            <h3>Payment Information</h3>
 
-                <div class="col-6">
-                    <p>Jeonse: {{ object.jeonse_amount }}</p>
-                </div>
-                <div class="col-6">
-                    <p>Wolse: {{ object.wolse_amount }}</p>
-                    <p>Wolse monthly payment: {{ object.wolse_rent }}</p>
-                </div>
-
-                <div>
-                    <p>Management fees (Gwanlibi): {{ object.gwanlibi }}</p>
-                    <p>Monthly interest payment amount: {{ object.jeonse_interest_amount_per_month }}</p>
-                    <p class="lead">Total Monthly Expenses: <strong>{{ object.monthly_expense }}</strong></p>
-
-                </div>
+            <div class="col-6">
+                <p>Jeonse: {{ object.jeonse_amount }}</p>
+            </div>
+            <div class="col-6">
+                <p>Wolse: {{ object.wolse_amount }}</p>
+                <p>Wolse monthly payment: {{ object.wolse_rent }}</p>
             </div>
 
-            <div class="row mt-2">
-                <h3>House Information</h3>
-                <div class="col-6">
-                    <p>Rooms / Bathrooms: {{object.number_of_rooms}} / {{object.number_of_bathrooms}}</p>
-                </div>
-                <div class="col-6">
-                    <p>Condition: {{object.get_condition_display}}</p>
-                </div>
-            </div>
-            
-            {% if object.jeonse_amount %}
+            <div>
+                <p>Management fees (Gwanlibi): {{ object.gwanlibi }}</p>
+                <p>Monthly interest payment amount: {{ object.jeonse_interest_amount_per_month }}</p>
+                <p class="lead">Total Monthly Expenses: <strong>{{ object.monthly_expense }}</strong></p>
 
-                <div class="row mt-2">
-                    <h3>Jonse Loan Information</h3>
-                    <div class="col-6">
-                        <p>Jeonse: {{ object.jeonse_amount }}</p>
-                        <p>Annual Interest Rate: {{ object.jeonse_interest_rate }}%</p>
-                    </div>
-                    <div class="col-6">
-                        <p>Annual interest payment amount: {{ object.annual_interest_payment_amount }}</p>
-                        <p>Monthly interest payment amount: {{ object.monthly_interest_payment_amount }}</p>
-                    </div>
-                </div>
-            {% endif %}
+            </div>
         </div>
 
-        <div class="mt-2 mt-md-3 d-flex justify-content-between">
-            <div>
-                <a class="btn btn-outline-success" href="{% url 'my_listings' %}">Back</a> 
+        <div class="row mt-2">
+            <h3>House Information</h3>
+            <div class="col-6">
+                <p>Rooms / Bathrooms: {{object.number_of_rooms}} / {{object.number_of_bathrooms}}</p>
             </div>
-            <div>
-                <a class="btn btn-outline-danger" href="{% url 'listing_delete' pk=object.pk %}">Delete</a> 
-                <button 
-                    class="btn btn-success ms-2" 
-                    hx-target="#listing-detail" 
-                    hx-get="{% url 'listing_update' pk=object.pk %}">
-                    Edit
-                </button> 
+            <div class="col-6">
+                <p>Condition: {{object.get_condition_display}}</p>
+            </div>
+        </div>
+        
+        {% if object.jeonse_amount %}
+
+            <div class="row mt-2">
+                <h3>Jonse Loan Information</h3>
+                <div class="col-6">
+                    <p>Jeonse: {{ object.jeonse_amount }}</p>
+                    <p>Annual Interest Rate: {{ object.jeonse_interest_rate }}%</p>
                 </div>
+                <div class="col-6">
+                    <p>Annual interest payment amount: {{ object.annual_interest_payment_amount }}</p>
+                    <p>Monthly interest payment amount: {{ object.monthly_interest_payment_amount }}</p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="mt-2 mt-md-3 d-flex justify-content-between">
+        <div>
+            <a class="btn btn-outline-success" href="{% url 'my_listings' %}">Back</a> 
+        </div>
+        <div>
+            <a class="btn btn-outline-danger" href="{% url 'listing_delete' pk=object.pk %}">Delete</a> 
+            <button 
+                class="btn btn-success ms-2" 
+                hx-target="#listing-detail" 
+                hx-get="{% url 'listing_update' pk=object.pk %}"
+                hx-indicator=".progress">
+                Edit
+            </button> 
             </div>
         </div>
     </div>
-{% endblock %}
+</div>

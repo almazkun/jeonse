@@ -1,23 +1,26 @@
 {% extends "_base.html" %}
 
 {% block main_content %}
-    <div class="container pb-5">
-        <h1>Sign in please</h1>
-        <form id="login-form" method="post">{% csrf_token %}
+<div class="container pb-5">
+    <h1>Sign in please</h1>
+    <form id="login-form" method="post">{% csrf_token %}
 
-            {% include 'includes/form.html' with form=form  %}
+        {% include 'includes/form.html' with form=form  %}
 
-            <div class="mt-2 mt-md-3 d-flex justify-content-between">
-                <a class="btn btn-outline-danger" href="{% url 'home' %}">Cancel</a> 
-                <button type="submit" class="btn btn-success">Sign in</button>
-            </div>
-        </form>
-        <div class="mt-2 mt-md-3">
-            <p>Don't have one? <a href="{% url 'signup' %}">Sign up now!</a></p>
-            {% if demo_user_email and demo_user_password %}
-                <p>Don't want to? Just use a demo user!</p>
-                <p>Email address: <code>{{ demo_user_email }}</code>, password: <code>{{ demo_user_password }}</code></p>
-            {% endif %}
+        <div class="mt-2 mt-md-3 d-flex justify-content-between">
+            <a class="btn btn-outline-danger" href="{% url 'home' %}">Cancel</a>
+            <button type="submit" class="btn btn-success">Sign in</button>
         </div>
+    </form>
+    <div class="mt-2 mt-md-3">
+        <p>Don't have one? <a href="{% url 'signup' %}">Sign up now!</a></p>
+        {% if demo_user_email and demo_user_password %}
+        <p>Don't want to? Just use a demo user!</p>
+        <div class="p-3 border rounded">
+            <p class="m-2">Email address: <code>{{ demo_user_email }}</code></p>
+            <p class="m-2">Password: <code>{{ demo_user_password }}</code></p>
+        </div>
+        {% endif %}
     </div>
+</div>
 {% endblock %}
