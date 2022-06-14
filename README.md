@@ -1,4 +1,7 @@
 # Jeonse (전세)
+
+Demo: https://jeonse.akun.dev
+
 An app to compare different rental options. 
 
 With rising loan interest rate and additional fees it is hard to compare multiple `Jeonse` and `Wolse` options at a glance. 
@@ -14,34 +17,15 @@ Monthly loan payment amount is calculated from the `Jeonse` deposit amount only.
 Monthly loan payment amount is calculated by the formula: `Jeonse` deposit amount * `Jeonse` loan interest rate / 12.
 
 If you find yourself not comprehending what the hell I am talking about, please not that it is about housing rental options in South Korea. More info is https://en.wikipedia.org/wiki/Jeonse.
-## TODO
-* CRUD a listing
-* Display numbers nicer
-* Create listing form nicer
-
-# DONE
-* Add Accounts
-* Users listings
-* Create a user
-
-## Changes
-1. Docker Compose dev and prod setup
-1. Templates 
-1. Bootstrap 5
-1. Logging
-1. Pipenv for environment
-1. .env file
-1. Static files 
-
 
 ## Install
-1. `git clone https://github.com/almazkun/django_template.git`
-2. `pipenv install`
-3. `pipenv shell`
-4. `python manage.py startapp <app_name>`
-5. `python manage.py makemigrations`
-6. `python manage.py migrate`
-7. `python manage.py runserver`
+1. `git git@github.com:almazkun/jeonse.git`
+1. `cd jeonse`
+1. `pipenv install`
+1. `pipenv run python manage.py migrate`
+1. `pipenv run python manage.py runserver`
+1. Create a user.
+1. Add new listing.
 
 
 
