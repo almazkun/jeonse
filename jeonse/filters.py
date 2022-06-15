@@ -9,6 +9,3 @@ class ListingFilter(django_filters.FilterSet):
     class Meta:
         model = Listing
         fields = ["query"]
-
-    def universal_search(self, queryset, name, value):
-        return Listing.objects.filter(name__icontains=value)

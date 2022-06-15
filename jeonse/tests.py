@@ -2,8 +2,9 @@ from random import choice as c
 
 from django.test import TestCase
 
-from jeonse.models import Listing
 from apps.accounts.models import CustomUser
+from jeonse.models import Listing
+
 
 # Create your tests here.
 class TestModels(TestCase):
