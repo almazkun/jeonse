@@ -204,5 +204,8 @@ DEMO_USER_EMAIL = os.environ.get("DEMO_USER_EMAIL")
 DEMO_USER_PASSWORD = os.environ.get("DEMO_USER_PASSWORD")
 
 import sys
-if 'test' in sys.argv or 'test_coverage' in sys.argv: #Covers regular testing and django-coverage
-    DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
+
+if (
+    "test" in sys.argv or "test_coverage" in sys.argv
+):  # Covers regular testing and django-coverage
+    DATABASES["default"]["ENGINE"] = "django.db.backends.sqlite3"

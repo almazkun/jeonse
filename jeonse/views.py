@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 from django_filters.views import FilterView
@@ -8,6 +8,12 @@ from jeonse.filters import ListingFilter
 from jeonse.forms import ListingCreateForm
 from jeonse.models import Listing
 from jeonse.tables import ListingTable, MyListingTable
+
+
+class TestIsCreatorMixin(LoginRequiredMixin, UserPassesTestMixin):
+    def test_func(self):
+        obj = super().get_object()
+        return obj.creator == self.request.user or self.request.user.is_staff
 
 
 # Create your views here.
@@ -51,7 +57,7 @@ class ListingCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class ListingDetailView(LoginRequiredMixin, DetailView):
+class ListingDetailView(TestIsCreatorMixin, DetailView):
     model = Listing
 
     def get_template_names(self):
@@ -64,7 +70,7 @@ class ListingDetailView(LoginRequiredMixin, DetailView):
         return template_name
 
 
-class ListingUpdateView(LoginRequiredMixin, UpdateView):
+class ListingUpdateView(TestIsCreatorMixin, UpdateView):
     model = Listing
     form_class = ListingCreateForm
     template_name = "listing/update.html"
@@ -73,16 +79,9 @@ class ListingUpdateView(LoginRequiredMixin, UpdateView):
         return reverse_lazy("listing_detail", kwargs={"pk": self.object.pk})
 
 
-class ListingDeleteView(LoginRequiredMixin, DeleteView):
+class ListingDeleteView(TestIsCreatorMixin, DeleteView):
     redirect_field_name = "next"
     success_url = reverse_lazy("my_listings")
     model = Listing
 
     template_name = "listing/delete.html"
-
-    def get_object(self, queryset=None):
-        """Hook to ensure object is owned by request.user."""
-        obj = super().get_object()
-        if obj.creator == self.request.user or self.request.user.is_staff:
-            return obj
-        raise Http404

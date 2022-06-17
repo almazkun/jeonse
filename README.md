@@ -25,7 +25,7 @@ If you find yourself not comprehending what the hell I am talking about, please 
 1. `pipenv run python manage.py migrate`
 1. `pipenv run python manage.py runserver`
 1. Create a user.
-1. Add new listing.
+1. Add a new listing.
 
 
 
