@@ -124,6 +124,25 @@ class TestViews(TestCase):
 
     def test_listing_detail_view(self):
         c = Client()
+
         response = c.get(
-            reverse("listing_detail"),
+            reverse("listing_detail", kwargs={"pk": 99}),
         )
+
+        self.assertTrue(response.status_code, 404)
+
+        self._create_listings(self.user, 10)
+        listing = Listing.objects.get(pk=10)
+
+        response = c.get(
+            reverse("listing_detail", kwargs={"pk": listing.pk}),
+        )
+        self.assertTrue(response.status_code, 403)
+
+        c.force_login(self.user)
+
+        response = c.get(
+            reverse("listing_detail", kwargs={"pk": listing.pk}),
+        )
+
+        self.assertTrue(listing.name in str(response.content))
