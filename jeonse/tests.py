@@ -100,26 +100,30 @@ class TestViews(TestCase):
     def test_listing_create_view(self):
         c = Client()
         response = c.get(reverse("listing_create"))
-        # test LoginRequiredMixin
+
         self.assertEqual(response.status_code, 302)
 
         c.force_login(self.user)
-
         response = c.get(reverse("listing_create"))
         self.assertEqual(response.status_code, 200)
 
-        data = response.context["form"]
-        print(data)
-        data.update(self.listing_data)
+        data = self.listing_data
+        data.update(
+            {
+                "name": "some name",
+                "number_of_rooms": 1,
+                "number_of_bathrooms": 1,
+                "condition": 1,
+            }
+        )
 
-        print(data)
-        # test form
         response = c.post(reverse("listing_create"), data=data)
-        self.assertEqual(response.status_code, 200)
-        print(response.context["form"].errors)
-        self.assertTrue(response.context["form"].is_valid())
-
-        self.assertFalse(response.context["form"].errors)
-
+        self.assertEqual(response.status_code, 302)
         listing = Listing.objects.get(**self.listing_data)
         self.assertEqual(listing.creator, self.user)
+
+    def test_listing_detail_view(self):
+        c = Client()
+        response = c.get(
+            reverse("listing_detail"),
+        )
