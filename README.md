@@ -16,7 +16,7 @@ Monthly loan payment amount is calculated from the `Jeonse` deposit amount only.
 
 Monthly loan payment amount is calculated by the formula: `Jeonse` deposit amount * `Jeonse` loan interest rate / 12.
 
-If you find yourself not comprehending what the hell I am talking about, please not that it is about housing rental options in South Korea. More info is https://en.wikipedia.org/wiki/Jeonse.
+If you find yourself not comprehending what the hell I am talking about, please note that it is about housing rental options in South Korea. More info is https://en.wikipedia.org/wiki/Jeonse.
 
 ## Install
 1. `git git@github.com:almazkun/jeonse.git`
