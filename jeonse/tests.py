@@ -71,6 +71,18 @@ class TestViews(TestCase):
             "jeonse_interest_rate": 100,
         }
 
+        self.updated_data = {
+            "name": "new awesome name",
+            "jeonse_amount": 10,
+            "wolse_amount": 10,
+            "wolse_rent": 10,
+            "gwanlibi": 10,
+            "jeonse_interest_rate": 10,
+            "number_of_rooms": 10,
+            "number_of_bathrooms": 10,
+            "condition": 2,
+        }
+
     def _create_listings(self, user, number: int):
         for i in range(number):
             l_data = self.listing_data.copy()
@@ -125,24 +137,99 @@ class TestViews(TestCase):
     def test_listing_detail_view(self):
         c = Client()
 
+        pk = 10
+
+        self._create_listings(self.user, pk)
+
         response = c.get(
-            reverse("listing_detail", kwargs={"pk": 99}),
+            reverse("listing_detail", kwargs={"pk": pk}),
         )
 
-        self.assertTrue(response.status_code, 404)
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(response.url.startswith(reverse("signin")))
 
-        self._create_listings(self.user, 10)
-        listing = Listing.objects.get(pk=10)
+        listing = Listing.objects.get(pk=pk)
 
         response = c.get(
             reverse("listing_detail", kwargs={"pk": listing.pk}),
         )
-        self.assertTrue(response.status_code, 403)
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(response.url.startswith(reverse("signin")))
 
         c.force_login(self.user)
 
         response = c.get(
             reverse("listing_detail", kwargs={"pk": listing.pk}),
         )
-
+        self.assertEqual(response.status_code, 200)
         self.assertTrue(listing.name in str(response.content))
+
+    def test_listing_update_view(self):
+        c = Client()
+        pk = 10
+
+        self._create_listings(self.user, pk)
+
+        response = c.get(
+            reverse("listing_update", kwargs={"pk": pk}),
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(response.url.startswith(reverse("signin")))
+
+        listing = Listing.objects.get(pk=pk)
+
+        response = c.get(
+            reverse("listing_update", kwargs={"pk": listing.pk}),
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(response.url.startswith(reverse("signin")))
+
+        c.force_login(self.user)
+
+        response = c.get(
+            reverse("listing_update", kwargs={"pk": listing.pk}),
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(listing.name in str(response.content))
+
+        response = c.post(
+            reverse("listing_update", kwargs={"pk": listing.pk}), data=self.updated_data
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(Listing.objects.filter(**self.updated_data).exists())
+
+    def test_listing_delete_view(self):
+        c = Client()
+        pk = 10
+
+        self._create_listings(self.user, pk)
+
+        response = c.get(
+            reverse("listing_delete", kwargs={"pk": pk}),
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(response.url.startswith(reverse("signin")))
+
+        listing = Listing.objects.get(pk=pk)
+
+        response = c.get(
+            reverse("listing_delete", kwargs={"pk": listing.pk}),
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(response.url.startswith(reverse("signin")))
+
+        c.force_login(self.user)
+
+        response = c.get(
+            reverse("listing_delete", kwargs={"pk": listing.pk}),
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(listing.name in str(response.content))
+
+        response = c.post(
+            reverse("listing_delete", kwargs={"pk": listing.pk}),
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(Listing.objects.filter(pk=pk).exists())
