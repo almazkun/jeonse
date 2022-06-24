@@ -62,27 +62,13 @@ class TestViews(TestCase):
             },
         )
 
-    def _login(self, email, password) -> "response":
-        return self.client.post(
-            reverse("account_login"),
-            {
-                "email": email,
-                "password": password,
-            },
-        )
-
-    def _logout(self) -> "response":
-        return self.client.post(
-            reverse("account_logout"),
-        )
-
     def setUp(self):
         self.client = Client()
-        self.user_data = {
+        self.user_data_0 = {
             "email": "test_user@email.com",
             "password": "testpassword",
         }
-        self.other_user_data = {
+        self.user_data_1 = {
             "email": "other_test_user@email.com",
             "password": "testpassword",
         }
@@ -106,47 +92,70 @@ class TestViews(TestCase):
         }
 
     def _create_listings(self, email, number: int):
-        print(email)
         for i in range(number):
             l_data = self.listing_data.copy()
             l_data["creator"] = get_user_model().objects.get(
-            email=email,
-        )
+                email=email,
+            )
             Listing.objects.create(**l_data)
 
+    def test_home_view(self):
+        n_one = 3
+        n_two = 4
+
+        self._signup(self.user_data_0.get("email"), self.user_data_0.get("password"))
+        self._signup(self.user_data_1.get("email"), self.user_data_1.get("password"))
+        self._create_listings(self.user_data_0.get("email"), n_one)
+        self._create_listings(self.user_data_1.get("email"), n_two)
+
+        c = self.client
+        r = c.get(reverse("home"))
+
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(r.context["object_list"].count(), n_one + n_two)
+
     def test_my_listing_view(self):
-        response = self.client.get(reverse("my_listings"))
-        # test LoginRequiredMixin
-        self.assertEqual(response.status_code, 302)
+        c = self.client
+        r = c.get(reverse("my_listings"))
 
-        self._signup(self.user_data.get("email"), self.user_data.get("password"))
-        self._login(self.user_data.get("email"), self.user_data.get("password"))
+        self.assertEqual(r.status_code, 302)
 
-        response = self.client.get(reverse("my_listings"))
-        self.assertEqual(response.status_code, 200)
+        self._signup(self.user_data_0.get("email"), self.user_data_0.get("password"))
+        c.login(**self.user_data_0)
+        r = c.get(reverse("my_listings"))
 
-        # test queryset only contains user's listings
-        self.assertEqual(response.context["object_list"].count(), 0)
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(r.context["object_list"].count(), 0)
 
-        self._create_listings(self.user_data.get("email"), 10)
+        self._create_listings(self.user_data_0.get("email"), 10)
+        self._signup(self.user_data_1.get("email"), self.user_data_1.get("password"))
+        self._create_listings(self.user_data_1.get("email"), 10)
 
-        self._signup(self.other_user_data.get("email"), self.other_user_data.get("password"))
-        self._create_listings(self.other_user_data.get("email"), 10)
+        r = c.get(reverse("my_listings"))
 
-        response = self.client.get(reverse("my_listings"))
-        self.assertEqual(response.context["object_list"].count(), 10)
-        """
+        self.assertEqual(r.context["object_list"].count(), 10)
+        self.assertTrue(
+            all(
+                [
+                    listing.creator.email == self.user_data_0.get("email")
+                    for listing in r.context["object_list"]
+                ]
+            )
+        )
+
     def test_listing_create_view(self):
-        c = Client()
-        response = c.get(reverse("listing_create"))
+        c = self.client
+        r = c.get(reverse("listing_create"))
 
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(r.status_code, 302)
 
-        c.force_login(self.user)
-        response = c.get(reverse("listing_create"))
-        self.assertEqual(response.status_code, 200)
+        self._signup(self.user_data_0.get("email"), self.user_data_0.get("password"))
+        t = c.login(**self.user_data_0)
+        r = c.get(reverse("listing_create"))
 
-        data = self.listing_data
+        self.assertEqual(r.status_code, 200)
+
+        data = self.listing_data.copy()
         data.update(
             {
                 "name": "some name",
@@ -155,110 +164,112 @@ class TestViews(TestCase):
                 "condition": 1,
             }
         )
+        r = c.post(reverse("listing_create"), data=data)
 
-        response = c.post(reverse("listing_create"), data=data)
-        self.assertEqual(response.status_code, 302)
-        listing = Listing.objects.get(**self.listing_data)
-        self.assertEqual(listing.creator, self.user)
+        self.assertEqual(r.status_code, 302)
+        self.assertEqual(
+            Listing.objects.get(**self.listing_data).creator.email,
+            self.user_data_0.get("email"),
+        )
 
     def test_listing_detail_view(self):
-        c = Client()
-
+        c = self.client
         pk = 10
 
-        self._create_listings(self.user, pk)
+        self._signup(self.user_data_0.get("email"), self.user_data_0.get("password"))
+        self._create_listings(self.user_data_0.get("email"), pk)
 
-        response = c.get(
+        r = c.get(
             reverse("listing_detail", kwargs={"pk": pk}),
         )
 
-        self.assertEqual(response.status_code, 302)
-        self.assertTrue(response.url.startswith(reverse("account_login")))
+        self.assertEqual(r.status_code, 302)
+        self.assertTrue(r.url.startswith(reverse("account_login")))
 
         listing = Listing.objects.get(pk=pk)
-
-        response = c.get(
+        r = c.get(
             reverse("listing_detail", kwargs={"pk": listing.pk}),
         )
-        self.assertEqual(response.status_code, 302)
-        self.assertTrue(response.url.startswith(reverse("account_login")))
 
-        c.force_login(self.user)
+        self.assertEqual(r.status_code, 302)
+        self.assertTrue(r.url.startswith(reverse("account_login")))
 
-        response = c.get(
+        c.login(**self.user_data_0)
+        r = c.get(
             reverse("listing_detail", kwargs={"pk": listing.pk}),
         )
-        self.assertEqual(response.status_code, 200)
-        self.assertTrue(listing.name in str(response.content))
+
+        self.assertEqual(r.status_code, 200)
+        self.assertTrue(listing.name in str(r.content))
 
     def test_listing_update_view(self):
-        c = Client()
+        c = self.client
         pk = 10
 
-        self._create_listings(self.user, pk)
-
-        response = c.get(
+        self._signup(self.user_data_0.get("email"), self.user_data_0.get("password"))
+        self._create_listings(self.user_data_0.get("email"), pk)
+        r = c.get(
             reverse("listing_update", kwargs={"pk": pk}),
         )
 
-        self.assertEqual(response.status_code, 302)
-        self.assertTrue(response.url.startswith(reverse("account_login")))
+        self.assertEqual(r.status_code, 302)
+        self.assertTrue(r.url.startswith(reverse("account_login")))
 
         listing = Listing.objects.get(pk=pk)
-
-        response = c.get(
+        r = c.get(
             reverse("listing_update", kwargs={"pk": listing.pk}),
         )
-        self.assertEqual(response.status_code, 302)
-        self.assertTrue(response.url.startswith(reverse("account_login")))
 
-        c.force_login(self.user)
+        self.assertEqual(r.status_code, 302)
+        self.assertTrue(r.url.startswith(reverse("account_login")))
 
-        response = c.get(
+        c.login(**self.user_data_0)
+        r = c.get(
             reverse("listing_update", kwargs={"pk": listing.pk}),
         )
-        self.assertEqual(response.status_code, 200)
-        self.assertTrue(listing.name in str(response.content))
 
-        response = c.post(
+        self.assertEqual(r.status_code, 200)
+        self.assertTrue(listing.name in str(r.content))
+
+        r = c.post(
             reverse("listing_update", kwargs={"pk": listing.pk}), data=self.updated_data
         )
-        self.assertEqual(response.status_code, 302)
+
+        self.assertEqual(r.status_code, 302)
         self.assertTrue(Listing.objects.filter(**self.updated_data).exists())
 
     def test_listing_delete_view(self):
-        c = Client()
+        c = self.client
         pk = 10
 
-        self._create_listings(self.user, pk)
-
-        response = c.get(
+        self._signup(self.user_data_0.get("email"), self.user_data_0.get("password"))
+        self._create_listings(self.user_data_0.get("email"), pk)
+        r = c.get(
             reverse("listing_delete", kwargs={"pk": pk}),
         )
 
-        self.assertEqual(response.status_code, 302)
-        self.assertTrue(response.url.startswith(reverse("account_login")))
+        self.assertEqual(r.status_code, 302)
+        self.assertTrue(r.url.startswith(reverse("account_login")))
 
         listing = Listing.objects.get(pk=pk)
-
-        response = c.get(
+        r = c.get(
             reverse("listing_delete", kwargs={"pk": listing.pk}),
         )
-        self.assertEqual(response.status_code, 302)
-        self.assertTrue(response.url.startswith(reverse("account_login")))
 
-        c.force_login(self.user)
+        self.assertEqual(r.status_code, 302)
+        self.assertTrue(r.url.startswith(reverse("account_login")))
 
-        response = c.get(
+        c.login(**self.user_data_0)
+        r = c.get(
             reverse("listing_delete", kwargs={"pk": listing.pk}),
         )
-        self.assertEqual(response.status_code, 200)
-        self.assertTrue(listing.name in str(response.content))
 
-        response = c.post(
+        self.assertEqual(r.status_code, 200)
+        self.assertTrue(listing.name in str(r.content))
+
+        r = c.post(
             reverse("listing_delete", kwargs={"pk": listing.pk}),
         )
-        self.assertEqual(response.status_code, 302)
+
+        self.assertEqual(r.status_code, 302)
         self.assertFalse(Listing.objects.filter(pk=pk).exists())
-
-        """
