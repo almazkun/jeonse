@@ -2,7 +2,7 @@
 
 {% block main_content %}
 <div class="container pb-5">
-    <h1>Login please</h1>
+    <h1>Please login</h1>
     <form id="login-form" method="post">{% csrf_token %}
 
         {% include 'includes/form.html' with form=form  %}
