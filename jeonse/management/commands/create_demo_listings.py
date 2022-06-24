@@ -1,9 +1,9 @@
 from random import choice
 
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 
-from apps.accounts.models import CustomUser
 from jeonse.models import Listing
 
 
@@ -11,11 +11,12 @@ class Command(BaseCommand):
     help = "Creates Demo Listings"
 
     def handle(self, *args, **kwargs):
-        if not CustomUser.objects.filter(email=settings.DEMO_USER_EMAIL).exists():
+        get_user_model()
+        if not get_user_model().objects.filter(email=settings.DEMO_USER_EMAIL).exists():
             self.stdout.write(self.style.ERROR("Demo user does not exist! exiting..."))
             return
 
-        user = CustomUser.objects.get(email=settings.DEMO_USER_EMAIL)
+        user = get_user_model().objects.get(email=settings.DEMO_USER_EMAIL)
         jeonse_amount_list = [
             0,
             500000000,

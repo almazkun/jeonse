@@ -1,7 +1,7 @@
 <form hx-post="{% url 'listing_update' pk=object.pk %}">{% csrf_token %}
     <h1>{{ object.name }}</h1>
     <p>Edit</p>
-    {% include 'includes/form.html' with form=form  %}
+    {% include 'listing/form.html' with form=form  %}
     <div class="mt-2 mt-md-3 d-flex justify-content-between">
         <a class="btn btn-outline-danger" href="{% url 'listing_detail' pk=object.pk %}">Cancel</a> 
         <button type="submit" class="btn btn-success">Save</button>

@@ -87,25 +87,3 @@ class Listing(BaseModel):
         return int(
             self.wolse_rent + self.gwanlibi + self.monthly_interest_payment_amount
         )
-
-    """
-from jeonse.models import Listing
-Listing.objects.all().delete()
-from random import choice
-from apps.accounts.models import CustomUser
-
-
-
-for i in range(1000):
-    Listing.objects.create(
-        creator=choice(CustomUser.objects.all()),
-        jeonse_amount=choice(range(0, 1000000))*i,
-        wolse_amount=choice(range(0, 1000000))*i,
-        wolse_rent=choice(range(0, 100000))*i,
-        gwanlibi=choice(range(0, 100000))*i,
-        number_of_rooms=choice(range(1, 10)),
-        number_of_bathrooms=choice(range(1, 10)),
-        condition=choice(range(0, 3)),
-        description=i,
-    )
-    """

@@ -15,10 +15,13 @@
 
         <div class="ms-auto">
             {% if user.is_authenticated %}
-                <a class="nav-item text-decoration-none text-dark" href="{% url 'signout' %}">Sign out</a>
+                <form method="post" action="{% url 'account_logout' %}">
+                    {% csrf_token %}
+                    <button class="nav-item text-decoration-none text-dark btn btn-link" type="submit">Logout</button>
+                </form>
             {% else %}
-                <a class="nav-item text-decoration-none text-dark pe-2 {% if '/signin/' in request.path %} lead fw-bold {% endif %}" href="{% url 'signin' %}">Sign in</a>
-                <a class="nav-item text-decoration-none text-dark {% if '/signup/' in request.path %} lead fw-bold {% endif %}" href="{% url 'signup' %}">Sign up</a>
+                <a class="nav-item text-decoration-none text-dark pe-2 {% if 'login' in request.path %} lead fw-bold {% endif %}" href="{% url 'account_login' %}">Login</a>
+                <a class="nav-item text-decoration-none text-dark {% if 'signup' in request.path %} lead fw-bold {% endif %}" href="{% url 'account_signup' %}">Sign up</a>
             {% endif %}
         </div>
     </div>

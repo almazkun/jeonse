@@ -1,7 +1,6 @@
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
-
-from apps.accounts.models import CustomUser
 
 
 class Command(BaseCommand):
@@ -12,8 +11,8 @@ class Command(BaseCommand):
         password = settings.DEMO_USER_PASSWORD
 
         if email and password:
-            if not CustomUser.objects.filter(email=email).exists():
-                user = CustomUser.objects.create_user(email)
+            if not get_user_model().objects.filter(email=email).exists():
+                user = get_user_model().objects.create_user(email)
                 user.set_password(password)
                 user.save()
             self.stdout.write(

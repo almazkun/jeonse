@@ -42,12 +42,14 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # my apps
     "jeonse",
-    "apps.accounts",
     # third party apps
     "django_tables2",
     "django_filters",
     "crispy_forms",
     "widget_tweaks",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
 ]
 
 MIDDLEWARE = [
@@ -121,6 +123,26 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# DJANGO-ALLAUTH CONFIGS
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/dev/ref/settings/#site-id
+SITE_ID = 1
+# https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url
+LOGIN_REDIRECT_URL = "home"
+# https://django-allauth.readthedocs.io/en/latest/views.html#logout-account-logout
+ACCOUNT_LOGOUT_REDIRECT_URL = "home"
+# https://django-allauth.readthedocs.io/en/latest/installation.html?highlight=backends
+AUTHENTICATION_BACKENDS = (
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
+# https://django-allauth.readthedocs.io/en/latest/configuration.html
+ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_VERIFICATION = "none"
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
@@ -179,13 +201,9 @@ LOGGING = {
         "level": "DEBUG",
     },
 }
-# CUSTOM USER MODEL CONFIGS
-# ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/topics/auth/customizing/#substituting-a-custom-user-model
-AUTH_USER_MODEL = "accounts.CustomUser"
 
 # for LoginRequiredMixin to work
-LOGIN_URL = "signin"
+LOGIN_URL = "account_login"
 
 # for account.urls to work
 LOGOUT_REDIRECT_URL = "home"

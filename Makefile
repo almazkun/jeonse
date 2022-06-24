@@ -1,7 +1,9 @@
 sttc:
 	docker compose -f docker-compose.prod.yml run --rm web python3 manage.py collectstatic --noinput
+db:
+	docker compose up -d --build postgres
 
-mgrt:
+mgrt: db
 	docker compose run --rm web python3 manage.py makemigrations
 	docker compose run --rm web python3 manage.py migrate
 
@@ -12,7 +14,8 @@ dev:
 	docker compose up
 
 prod: sttc
-	docker compose -f docker-compose.prod.yml up -d
+	docker compose -f docker-compose.prod.yml up -d --build
+	docker compose -f docker-compose.prod.yml run --rm web python3 manage.py migrate
 
 down:
 	docker compose down -v
