@@ -56,10 +56,10 @@ class Listing(BaseModel):
         _("Jeonse loan monthly payment amount"), default=0
     )
 
-    monthly_expense = models.IntegerField(_("Monthly expenses"), default=0)
+    monthly_expense = models.IntegerField(_("Monthly expense"), default=0)
 
-    number_of_rooms = models.SmallIntegerField(_("# of rooms"), default=1)
-    number_of_bathrooms = models.SmallIntegerField(_("# of bathrooms"), default=1)
+    number_of_rooms = models.SmallIntegerField(_("Room"), default=1)
+    number_of_bathrooms = models.SmallIntegerField(_("Bath"), default=1)
 
     condition = models.SmallIntegerField(
         _("Condition"), choices=condition_choices, default=OK

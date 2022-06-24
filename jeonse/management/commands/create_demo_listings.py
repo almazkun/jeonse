@@ -81,7 +81,7 @@ class Command(BaseCommand):
             "https://new.land.naver.com/complexes/11489?ms=37.4914246,126.9926633,17&a=APT:ABYG:JGC&e=RETAIL",
         ]
 
-        for i in range(100):
+        for i in range(17):
             listing = Listing.objects.create(
                 creator=user,
                 jeonse_amount=choice(jeonse_amount_list),

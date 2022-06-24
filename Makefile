@@ -7,11 +7,11 @@ mgrt: db
 	docker compose run --rm web python3 manage.py makemigrations
 	docker compose run --rm web python3 manage.py migrate
 
-run:
+run: db
 	docker compose up --build
 
-dev:  
-	docker compose up
+dev: db
+	docker compose up -d --build
 
 prod: sttc
 	docker compose -f docker-compose.prod.yml up -d --build
