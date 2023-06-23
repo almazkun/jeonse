@@ -24,7 +24,6 @@ class HomeView(SingleTableMixin, FilterView):
     filterset_class = ListingFilter
 
     def get_template_names(self):
-
         if self.request.htmx:
             template_name = "home_partial.html"
         else:
@@ -61,7 +60,6 @@ class ListingDetailView(TestIsCreatorMixin, DetailView):
     model = Listing
 
     def get_template_names(self):
-
         if self.request.htmx:
             template_name = "listing/detail_partial.html"
         else:

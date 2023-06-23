@@ -1,46 +1,65 @@
-sttc:
-	docker compose -f docker-compose.prod.yml run --rm web python3 manage.py collectstatic --noinput
-db:
-	docker compose up -d --build postgres
-
-mgrt: db
-	docker compose run --rm web python3 manage.py makemigrations
-	docker compose run --rm web python3 manage.py migrate
-
-run: db
-	docker compose up --build
-
-dev: db
-	docker compose up -d --build
-
-prod: sttc
-	docker compose -f docker-compose.prod.yml up -d --build
-	docker compose -f docker-compose.prod.yml run --rm web python3 manage.py migrate
-
-down:
-	docker compose down -v
+FILES = .
+k = --parallel
 
 lint:
-	pipenv run isort --recursive --force-single-line-imports --line-width 999 .
-	pipenv run autoflake --recursive --ignore-init-module-imports --in-place --remove-all-unused-imports .
-	pipenv run isort --recursive --use-parentheses --trailing-comma --multi-line 3 --force-grid-wrap 0 --line-width 88 .
-	pipenv run black .
+	pipenv run isort --force-single-line-imports --line-width 999 ${FILES}
+	pipenv run autoflake --ignore-init-module-imports --in-place --remove-all-unused-imports ${FILES}
+	pipenv run isort --use-parentheses --trailing-comma --multi-line 3 --force-grid-wrap 0 --line-width 140 ${FILES}
+	pipenv run black ${FILES}
 
-clean:
-	docker rm -f $(shell docker ps -aq)
+up:	
+	docker compose up -d --build
+	docker ps -a
+
+cov:
+	docker compose exec web pip install coverage
+	docker compose exec web coverage run ./manage.py test 
+	docker compose exec web coverage html
+	docker compose exec web coverage report -m
+
+down:
+	docker compose down	-v
+
+_prod:
+	docker compose -f docker-compose.prod.yml up -d --build
+	docker ps -a
+
+collectstatic:
+	docker compose exec web python manage.py collectstatic --no-input
+
+makemigrations:
+	docker compose exec web python manage.py makemigrations
+
+migrate:
+	docker compose exec web python manage.py migrate
+
+startdemo:
+	docker compose exec web python manage.py create_demo_user
+	docker compose exec web python manage.py create_demo_listings
+
+build:
+	docker compose build
+
+logs:
+	docker compose logs -f
 
 test:
-	docker run --rm $(shell docker build -q -f Dockerfile.test .) coverage run manage.py test
+	docker compose run --rm --entrypoint="python" web manage.py test ${k}
 
-shell:
-	docker compose run --rm web python3 manage.py shell
+prod: _prod migrate collectstatic
 
-user:
-	docker-compose run --rm web python3 manage.py create_demo_user
+prod_restart: down prod
 
-listing:
-	docker-compose run --rm web python3 manage.py create_demo_listings
+ps:
+	docker ps -a
 
-test_env:
-	pipenv run coverage run manage.py test
-	pipenv run coverage report -m
+fresh_start: down up collectstatic makemigrations migrate startdemo 
+
+registry_build:
+	docker build -t ghcr.io/almazkun/jeonse:0.1.0 .
+
+registry_push:
+	docker push ghcr.io/almazkun/jeonse:0.1.0
+
+registry_pull:
+	docker pull ghcr.io/almazkun/jeonse:0.1.0

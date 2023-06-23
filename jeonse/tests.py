@@ -21,7 +21,6 @@ class TestModels(TestCase):
             1000,
         ]
         for i in range(100):
-
             l_data = {
                 "creator": creator,
                 "jeonse_amount": c(possible_numbers),

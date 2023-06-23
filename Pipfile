@@ -10,17 +10,16 @@ pylint = "*"
 autoflake = "*"
 
 [packages]
-django = "~=4.0"
-gunicorn = "~=20.1"
-django-tables2 = "~=2.4"
-django-htmx = "~=1.11"
-django-filter = "~=21.1"
-django-crispy-forms = "~=1.14"
-whitenoise = "~=6.1"
-psycopg2-binary = "*"
-dj-database-url = "*"
-django-widget-tweaks = "*"
-django-allauth = "*"
+django = "4.2.2"
+django-allauth = "0.54.0"
+django-tables2 = "2.5.3"
+django-htmx = "1.15.0"
+django-filter = "23.2"
+django-crispy-forms = "1.14"
+django-widget-tweaks = "1.4.12"
+whitenoise = "6.5.0"
+
+
 
 [requires]
 python_version = "3.10"
