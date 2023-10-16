@@ -149,7 +149,7 @@ class TestViews(TestCase):
         self.assertEqual(r.status_code, 302)
 
         self._signup(self.user_data_0.get("email"), self.user_data_0.get("password"))
-        t = c.login(**self.user_data_0)
+        c.login(**self.user_data_0)
         r = c.get(reverse("listing_create"))
 
         self.assertEqual(r.status_code, 200)

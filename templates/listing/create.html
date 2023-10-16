@@ -1,41 +1,44 @@
 {% extends "_base.html" %}
-
-
 {% block main_content %}
     <div class="container pb-5">
         <h1>New listing</h1>
         <p>Add</p>
-        <form id="login-form" method="post">{% csrf_token %}
-
+        <form id="login-form" method="post">
+            {% csrf_token %}
             {% include 'listing/form.html' with form=form  %}
-
             <div class="mt-2 mt-md-3 d-flex justify-content-between">
                 <a class="btn btn-outline-danger" href="{% url 'my_listings' %}">Cancel</a>
                 <button type="submit" class="btn btn-success">Add</button>
             </div>
         </form>
-
         <h2 class="mt-4">But why?</h2>
         <p>This is a website to compare different rental options.</p>
-
-        <p>With rising loan interest rate and additional fees it is hard to compare multiple <code>Jeonse</code> and
-            <code>Wolse</code> options at a glance. </p>
-
-        <p>This website gives you a simple way to compare <code>Jeonse</code> and <code>Wolse</code> rental options. </p>
-
-        <p>Main idea is to bring all options to a single <code>Monthly expenses</code> number.</p>
-
-        <p><code>Monthly expenses</code> calculated by summing up the <code>Wolse rent</code>, <code>Management fees</code>,
-            and <code>Jeonse monthly loan payment amount</code>.</p>
-
-        <p>Monthly loan payment amount is calculated from the <code>Jeonse</code> deposit amount only. So, this the only
+        <p>
+            With rising loan interest rate and additional fees it is hard to compare multiple <code>Jeonse</code> and
+            <code>Wolse</code> options at a glance.
+        </p>
+        <p>
+            This website gives you a simple way to compare <code>Jeonse</code> and <code>Wolse</code> rental options.
+        </p>
+        <p>
+            Main idea is to bring all options to a single <code>Monthly expenses</code> number.
+        </p>
+        <p>
+            <code>Monthly expenses</code> calculated by summing up the <code>Wolse rent</code>, <code>Management fees</code>,
+            and <code>Jeonse monthly loan payment amount</code>.
+        </p>
+        <p>
+            Monthly loan payment amount is calculated from the <code>Jeonse</code> deposit amount only. So, this the only
             difference between <code>Jeonse</code> and <code>Wolse</code> deposits in this app. As it is assumed that you
-            will get the loan for the <code>Jeonse</code> where as for <code>Wolse</code> you are using your own money.</p>
-
-        <p>Monthly loan payment amount is calculated by the formula: <code>Jeonse</code> deposit amount *
-            <code>Jeonse</code> loan interest rate / 12.</p>
-
-        <p>If you find yourself not comprehending what the hell I am talking about, please note that it is about housing
-            rental options in South Korea. Read for more info: https://en.wikipedia.org/wiki/Jeonse.</p>
+            will get the loan for the <code>Jeonse</code> where as for <code>Wolse</code> you are using your own money.
+        </p>
+        <p>
+            Monthly loan payment amount is calculated by the formula: <code>Jeonse</code> deposit amount *
+            <code>Jeonse</code> loan interest rate / 12.
+        </p>
+        <p>
+            If you find yourself not comprehending what the hell I am talking about, please note that it is about housing
+            rental options in South Korea. Read for more info: https://en.wikipedia.org/wiki/Jeonse.
+        </p>
     </div>
 {% endblock %}

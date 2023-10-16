@@ -1,8 +1,5 @@
 {% extends "_base.html" %}
-
 {% load render_table from django_tables2 %}
-
-
 {% block main_content %}
     <div class="container">
         {% block my_listings %}
@@ -12,16 +9,10 @@
                 <h1>All Listings</h1>
             {% endif %}
         {% endblock %}
-
         <a class="btn btn-outline-success" href="{% url 'listing_create' %}">Add Listing</a>
-
         <div class="progress my-2">
             <div class="indeterminate"></div>
         </div>
-
-        <div style="overflow: auto">
-            {% include "home_partial.html" %}
-        </div>
-
+        <div style="overflow: auto">{% include "home_partial.html" %}</div>
     </div>
 {% endblock %}
