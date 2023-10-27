@@ -9,7 +9,7 @@ ENV PYTHONUNBUFFERED 1
 
 COPY ./Pipfile ./Pipfile.lock ./
 
-RUN pip3 install pipenv gunicorn && pipenv install --deploy --ignore-pipfile --system
+RUN pip3 install pipenv daphne && pipenv install --deploy --ignore-pipfile --system
 
 COPY jeonse ./jeonse
 COPY settings ./settings
@@ -17,5 +17,6 @@ COPY static ./static
 COPY templates ./templates
 COPY manage.py ./
 
-ENTRYPOINT ["gunicorn"]
-CMD ["--bind", "0.0.0.0:8000", "settings.wsgi:application", "-w", "4", "--threads", "10" ]
+ENTRYPOINT [ "daphne" ]
+
+CMD [ "settings.asgi:application", "-b", "0.0.0.0", "-p", "8000" ]
